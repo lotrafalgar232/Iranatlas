@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Իրան (Iran) — Ատլաս</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0b0f17 0%, #1a1f2e 100%);
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+            overflow-y: auto; /* Разрешаем вертикальный скролл */
+        }
+
+        body.light-theme {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+        }
+
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #f0c46a;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            max-width: 320px;
+            height: 100%;
+            background: rgba(11, 15, 23, 0.98);
+            z-index: 1000;
+            padding: 80px 25px 25px;
+            transition: left 0.3s ease;
+            backdrop-filter: blur(10px);
+            overflow-y: auto; /* Скролл в меню если нужно */
+        }
+
+        .mobile-nav.active {
+            left: 0;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            color: #a6b0c3;
+            text-decoration: none;
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            background: rgba(240, 196, 106, 0.15);
+            color: #f0c46a;
+            transform: translateX(5px);
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-nav-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #f0c46a;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        /* Улучшенный фон */
+        .particles-bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(240, 196, 106, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(107, 255, 200, 0.05) 0%, transparent 40%);
+        }
+
+        .floating-dots {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-dot {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(240, 196, 106, 0.4);
+            border-radius: 50%;
+            animation: floatDot 20s infinite linear;
+        }
+
+        @keyframes floatDot {
+            0% { transform: translate(0, 0); opacity: 0.2; }
+            50% { transform: translate(100px, 50px); opacity: 0.5; }
+            100% { transform: translate(0, 0); opacity: 0.2; }
+        }
+
+        /* Loader - должен быть поверх всего */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0b0f17;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loader-logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #f0c46a;
+        }
+
+        .progress-container {
+            width: 280px;
+            max-width: 90%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #f0c46a;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        /* Login */
+        #login {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 15, 23, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            padding: 20px;
+            overflow-y: auto; /* Скролл если форма большая */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .login-card {
+            background: rgba(17, 24, 39, 0.95);
+            padding: 35px 30px;
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid rgba(240, 196, 106, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            margin: auto;
+        }
+
+        .login-card h2 {
+            color: #f0c46a;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .login-card p {
+            color: #a6b0c3;
+            margin-bottom: 25px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .password-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        #password {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(240, 196, 106, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            -webkit-appearance: none;
+            font-size: 16px; /* Предотвращает зум на iOS */
+        }
+
+        #password:focus {
+            outline: none;
+            border-color: #f0c46a;
+            box-shadow: 0 0 0 3px rgba(240, 196, 106, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #f0c46a;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 5px;
+        }
+
+        #loginBtn {
+            width: 100%;
+            padding: 16px;
+            background: #f0c46a;
+            border: none;
+            border-radius: 12px;
+            color: #111;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #loginBtn:active {
+            transform: scale(0.98);
+        }
+
+        #loginBtn:hover {
+            background: #ffd166;
+        }
+
+        /* Main App */
+        #app {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        header {
+            background: rgba(10, 14, 22, 0.95);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(240, 196, 106, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #f0c46a;
+        }
+
+        .desktop-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-link {
+            color: #a6b0c3;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: rgba(240, 196, 106, 0.15);
+            color: #f0c46a;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            min-height: calc(100vh - 150px); /* Учитываем header и отступы */
+            overflow: visible; /* Разрешаем контенту выходить за пределы */
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+            padding-bottom: 50px; /* Отступ снизу для мобильных */
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 10px;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            color: #f0c46a;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: #a6b0c3;
+            font-size: 17px;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .city-card {
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 18px;
+            padding: 25px;
+            border: 1px solid rgba(240, 196, 106, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .city-card:active {
+            transform: scale(0.98);
+        }
+
+        .city-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(240, 196, 106, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .city-name {
+            font-size: 22px;
+            color: #f0c46a;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .city-description {
+            color: #a6b0c3;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .city-stats {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .city-stat {
+            background: rgba(240, 196, 106, 0.12);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #f0c46a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-wrapper {
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 18px;
+            padding: 20px;
+            border: 1px solid rgba(240, 196, 106, 0.1);
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .interactive-map {
+            width: 100%;
+            height: 450px;
+            border-radius: 12px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .calculator-card {
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid rgba(240, 196, 106, 0.1);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            color: #a6b0c3;
+            margin-bottom: 12px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .city-select {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(240, 196, 106, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            -webkit-appearance: none;
+            cursor: pointer;
+            font-size: 16px; /* Предотвращает зум на iOS */
+        }
+
+        .city-select:focus {
+            outline: none;
+            border-color: #f0c46a;
+            box-shadow: 0 0 0 3px rgba(240, 196, 106, 0.1);
+        }
+
+        .swap-btn {
+            padding: 16px;
+            background: rgba(240, 196, 106, 0.12);
+            border: 1px solid rgba(240, 196, 106, 0.3);
+            border-radius: 12px;
+            color: #f0c46a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .swap-btn:active {
+            transform: rotate(180deg) scale(0.95);
+        }
+
+        .swap-btn:hover {
+            background: rgba(240, 196, 106, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .calculate-btn,
+        .reset-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            min-height: 54px;
+        }
+
+        .calculate-btn:active,
+        .reset-btn:active {
+            transform: scale(0.98);
+        }
+
+        .calculate-btn {
+            background: #f0c46a;
+            color: #111;
+        }
+
+        .calculate-btn:hover {
+            background: #ffd166;
+        }
+
+        .reset-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #a6b0c3;
+            border: 1px solid rgba(240, 196, 106, 0.3);
+        }
+
+        .reset-btn:hover {
+            background: rgba(240, 196, 106, 0.12);
+            color: #f0c46a;
+        }
+
+        .calculator-result {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(240, 196, 106, 0.1);
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result-placeholder {
+            color: #6b7280;
+            font-size: 17px;
+        }
+
+        .distance-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #f0c46a;
+            margin-bottom: 15px;
+        }
+
+        .distance-label {
+            color: #a6b0c3;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        .distance-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .detail-item {
+            background: rgba(240, 196, 106, 0.12);
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .detail-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #f0c46a;
+            margin-bottom: 8px;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #a6b0c3;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 25px;
+            min-width: 160px;
+            background: rgba(17, 24, 39, 0.6);
+            border-radius: 18px;
+            border: 1px solid rgba(240, 196, 106, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #f0c46a;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #a6b0c3;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Facts Section */
+        .facts-categories {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-btn {
+            padding: 14px 28px;
+            background: rgba(17, 24, 39, 0.6);
+            border: 1px solid rgba(240, 196, 106, 0.1);
+            border-radius: 12px;
+            color: #a6b0c3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            min-height: 50px;
+        }
+
+        .category-btn.active,
+        .category-btn:active {
+            background: rgba(240, 196, 106, 0.15);
+            color: #f0c46a;
+            border-color: rgba(240, 196, 106, 0.3);
+            transform: scale(0.98);
+        }
+
+        .category-btn:hover:not(.active) {
+            background: rgba(240, 196, 106, 0.08);
+            color: #f0c46a;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .fact-card {
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid rgba(240, 196, 106, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .fact-card:active {
+            transform: scale(0.98);
+        }
+
+        .fact-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(240, 196, 106, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .fact-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .fact-title {
+            font-size: 20px;
+            color: #f0c46a;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .fact-text {
+            color: #a6b0c3;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 56px;
+            height: 56px;
+            background: rgba(17, 24, 39, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+            border: 1px solid rgba(240, 196, 106, 0.2);
+            font-size: 24px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.9);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(240, 196, 106, 0.1);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 90px;
+            right: 25px;
+            background: rgba(17, 24, 39, 0.95);
+            border: 1px solid rgba(240, 196, 106, 0.2);
+            border-radius: 14px;
+            padding: 18px 24px;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-width: 320px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* Светлая тема */
+        body.light-theme .particles-bg {
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(217, 119, 6, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(239, 68, 68, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(5, 150, 105, 0.05) 0%, transparent 40%);
+        }
+
+        body.light-theme .city-card,
+        body.light-theme .map-wrapper,
+        body.light-theme .calculator-card,
+        body.light-theme .stat-item,
+        body.light-theme .fact-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(217, 119, 6, 0.15);
+            color: #1e293b;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-theme .city-description,
+        body.light-theme .section-header p,
+        body.light-theme .form-group label,
+        body.light-theme .fact-text {
+            color: #64748b;
+        }
+
+        body.light-theme #password,
+        body.light-theme .city-select {
+            background: rgba(0, 0, 0, 0.04);
+            color: #1e293b;
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+
+        body.light-theme .logo,
+        body.light-theme .city-name,
+        body.light-theme .section-header h2,
+        body.light-theme .distance-value,
+        body.light-theme .stat-number,
+        body.light-theme .fact-title {
+            color: #d97706;
+        }
+
+        body.light-theme .nav-link,
+        body.light-theme .mobile-nav-link {
+            color: #64748b;
+        }
+
+        body.light-theme .nav-link:hover,
+        body.light-theme .nav-link.active,
+        body.light-theme .mobile-nav-link:hover,
+        body.light-theme .mobile-nav-link.active {
+            background: rgba(217, 119, 6, 0.12);
+            color: #d97706;
+        }
+
+        body.light-theme .city-stat,
+        body.light-theme .detail-item,
+        body.light-theme .category-btn.active {
+            background: rgba(217, 119, 6, 0.12);
+            color: #d97706;
+        }
+
+        body.light-theme .category-btn {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(217, 119, 6, 0.15);
+            color: #64748b;
+        }
+
+        body.light-theme #loginBtn,
+        body.light-theme .calculate-btn {
+            background: #d97706;
+            color: white;
+        }
+
+        body.light-theme #loginBtn:hover,
+        body.light-theme .calculate-btn:hover {
+            background: #f59e0b;
+        }
+
+        body.light-theme .result-placeholder {
+            color: #94a3b8;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .section-header h2 {
+                font-size: 26px;
+                padding: 0 10px;
+            }
+
+            .section-header p {
+                font-size: 16px;
+                padding: 0 15px;
+            }
+
+            .cities-grid,
+            .facts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .swap-btn {
+                align-self: center;
+                margin: 5px 0;
+                order: 3; /* Помещаем кнопку после селекторов */
+            }
+
+            .distance-details {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stats-container {
+                gap: 20px;
+                margin: 30px 0;
+            }
+
+            .stat-item {
+                min-width: calc(50% - 10px);
+                padding: 20px;
+            }
+
+            .calculator-card {
+                padding: 25px 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .calculate-btn,
+            .reset-btn {
+                width: 100%;
+            }
+
+            .theme-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 52px;
+                height: 52px;
+            }
+
+            .notification {
+                bottom: 80px;
+                right: 20px;
+                left: 20px;
+                max-width: none;
+            }
+
+            .facts-categories {
+                gap: 10px;
+            }
+
+            .category-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                flex: 1;
+                min-width: calc(50% - 10px);
+                text-align: center;
+                min-height: 46px;
+            }
+
+            .interactive-map {
+                height: 400px;
+            }
+
+            .city-card,
+            .fact-card {
+                padding: 22px;
+            }
+
+            .fact-title {
+                font-size: 18px;
+            }
+
+            .fact-text {
+                font-size: 14px;
+            }
+
+            .city-name {
+                font-size: 20px;
+            }
+
+            .city-description {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-item {
+                min-width: 100%;
+            }
+
+            .category-btn {
+                min-width: 100%;
+            }
+
+            .interactive-map {
+                height: 350px;
+            }
+
+            .distance-value {
+                font-size: 32px;
+            }
+
+            .calculator-card {
+                padding: 20px 15px;
+            }
+
+            .login-card {
+                padding: 30px 20px;
+            }
+
+            .mobile-nav {
+                width: 90%;
+                padding: 80px 20px 20px;
+            }
+
+            .mobile-nav-link {
+                padding: 16px;
+                font-size: 17px;
+            }
+        }
+
+        /* Улучшения для touch устройств */
+        @media (hover: none) and (pointer: coarse) {
+            .city-card:hover,
+            .fact-card:hover,
+            .stat-item:hover {
+                transform: none;
+            }
+
+            .city-card:active,
+            .fact-card:active {
+                transform: scale(0.97);
+            }
+
+            .nav-link:hover,
+            .category-btn:hover:not(.active) {
+                background: none;
+            }
+
+            .calculate-btn:hover,
+            .reset-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* Улучшение доступности для касаний */
+        .nav-link,
+        .category-btn,
+        .calculate-btn,
+        .reset-btn,
+        .city-select,
+        .mobile-nav-link {
+            min-height: 44px; /* Минимальный размер для удобного касания */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        input,
+        select,
+        button {
+            font-size: 16px !important; /* Предотвращает зум на iOS */
+        }
+
+        /* Убираем синее выделение при тапе на iOS */
+        * {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        /* Плавный скролл */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Предотвращение выхода контента за пределы */
+        .content-section {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <!-- Улучшенный фон -->
+    <div class="particles-bg"></div>
+    
+    <!-- Loader -->
+    <div id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">Iran Atlas</div>
+            <div class="progress-container">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login -->
+    <div id="login">
+        <div class="login-card">
+            <h2>Մուտք դեպի համակարգ</h2>
+            <p>Մուտքագրեք գաղտնաբառը՝ <strong>Iranxhistory</strong></p>
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Գաղտնաբառ" autocomplete="off" inputmode="text">
+                <button type="button" class="toggle-password" id="togglePassword">👁️</button>
+            </div>
+            <button id="loginBtn">Մուտք</button>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <button class="close-menu" id="closeMenu">✕</button>
+        <a href="#" class="mobile-nav-link active" data-section="home">🏠 Տուն</a>
+        <a href="#" class="mobile-nav-link" data-section="cities">🏙️ Քաղաքներ</a>
+        <a href="#" class="mobile-nav-link" data-section="map">🗺️ Քարտեզ</a>
+        <a href="#" class="mobile-nav-link" data-section="distance">📏 Հեռավորություն</a>
+        <a href="#" class="mobile-nav-link" data-section="facts">📚 Փաստեր</a>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        🌙
+    </div>
+
+    <!-- Main App -->
+    <div id="app">
+        <!-- Header -->
+        <header>
+            <nav>
+                <div class="logo">Iran Atlas</div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+                <div class="desktop-nav">
+                    <a href="#" class="nav-link active" data-section="home">Տուն</a>
+                    <a href="#" class="nav-link" data-section="cities">Քաղաքներ</a>
+                    <a href="#" class="nav-link" data-section="map">Քարտեզ</a>
+                    <a href="#" class="nav-link" data-section="distance">Հեռավորություն</a>
+                    <a href="#" class="nav-link" data-section="facts">Փաստեր</a>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Home Section -->
+            <section class="content-section active" id="homeSection">
+                <div class="section-header">
+                    <h2>Բարի գալուստ Iran Atlas</h2>
+                    <p>Իրանի մասին ամեն ինչ մեկ տեղում</p>
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number" id="cityCount">0</div>
+                        <div class="stat-label">Քաղաքներ</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="areaCount">0</div>
+                        <div class="stat-label">Կմ² տարածք</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="populationCount">0</div>
+                        <div class="stat-label">Բնակչություն</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; padding: 30px 0 50px;">
+                    <p style="color: #a6b0c3; max-width: 700px; margin: 0 auto; font-size: 17px; line-height: 1.7;">
+                        Այս հավելվածում դուք կգտնեք իրանական քաղաքների մասին տեղեկատվություն, 
+                        կկարողանաք հաշվարկել հեռավորությունները քաղաքների միջև, ուսումնասիրել 
+                        Իրանի աշխարհագրությունը և իմանալ հետաքրքիր փաստեր։
+                    </p>
+                </div>
+            </section>
+
+            <!-- Cities Section -->
+            <section class="content-section" id="citiesSection">
+                <div class="section-header">
+                    <h2>Իրանի Քաղաքներ</h2>
+                    <p>Հիմնական քաղաքները և դրանց առանձնահատկությունները</p>
+                </div>
+                <div class="cities-grid" id="citiesGrid">
+                    <!-- Cities will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Map Section -->
+            <section class="content-section" id="mapSection">
+                <div class="section-header">
+                    <h2>Իրանի Քարտեզ</h2>
+                    <p>Մանրամասն քարտեզ Իրանի քաղաքներով</p>
+                </div>
+                <div class="map-wrapper">
+                    <img src="img1.png" alt="Iran Map" class="interactive-map" loading="lazy">
+                </div>
+            </section>
+
+            <!-- Distance Calculator Section -->
+            <section class="content-section" id="distanceSection">
+                <div class="section-header">
+                    <h2>Հեռավորության Հաշվիչ</h2>
+                    <p>Հաշվեք հեռավորությունը քաղաքների միջև</p>
+                </div>
+                <div class="calculator-card">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Սկզբնակետ</label>
+                            <select id="cityFrom" class="city-select">
+                                <option value="">Ընտրեք քաղաք</option>
+                            </select>
+                        </div>
+                        <button class="swap-btn" id="swapCities">↔</button>
+                        <div class="form-group">
+                            <label>Վերջնակետ</label>
+                            <select id="cityTo" class="city-select">
+                                <option value="">Ընտրեք քաղաք</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="calculate-btn" id="calculateBtn">Հաշվել</button>
+                        <button class="reset-btn" id="resetCalc">Մաքրել</button>
+                    </div>
+                    <div class="calculator-result" id="resultContainer">
+                        <div class="result-placeholder">
+                            Հեռավորությունը կցուցադրվի այստեղ
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Facts Section -->
+            <section class="content-section" id="factsSection">
+                <div class="section-header">
+                    <h2>Իրանի Փաստեր</h2>
+                    <p>Հետաքրքիր փաստեր Իրանի մասին</p>
+                </div>
+                
+                <div class="facts-categories" id="factsCategories">
+                    <button class="category-btn active" data-category="history">📜 Պատմություն</button>
+                    <button class="category-btn" data-category="culture">🎨 Մշակույթ</button>
+                    <button class="category-btn" data-category="geography">🗻 Աշխարհագրություն</button>
+                    <button class="category-btn" data-category="nature">🌿 Բնություն</button>
+                    <button class="category-btn" data-category="economy">💎 Տնտեսություն</button>
+                </div>
+                
+                <div class="facts-grid" id="factsGrid">
+                    <!-- Facts will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const app = {
+                cities: [
+                    {
+                        id: 'tehran',
+                        name: 'Թեհրան',
+                        description: 'Իրանի մայրաքաղաքը և ամենամեծ քաղաքը։ Մշակութային և տնտեսական կենտրոն։',
+                        population: '9.5 միլիոն',
+                        area: '730 կմ²',
+                        founded: '1796'
+                    },
+                    {
+                        id: 'shiraz',
+                        name: 'Շիրազ',
+                        description: 'Պարսկական պոեզիայի և մշակույթի կենտրոն։ Հայտնի է իր պարտեզներով և պատմական կառույցներով։',
+                        population: '1.8 միլիոն',
+                        area: '240 կմ²',
+                        founded: 'Ք․ա․ 2000'
+                    },
+                    {
+                        id: 'isfahan',
+                        name: 'Իսֆահան',
+                        description: 'Հայտնի է որպես «Կեսը աշխարհի»։ Պարսկական ճարտարապետության գլուխգործոց։',
+                        population: '2.2 միլիոն',
+                        area: '550 կմ²',
+                        founded: 'Ք․ա․ 500'
+                    },
+                    {
+                        id: 'tabriz',
+                        name: 'Թավրիզ',
+                        description: 'Հյուսիսարևմտյան Իրանի հիմնական քաղաքը։ Պատմական առևտրի կենտրոն։',
+                        population: '1.6 միլիոն',
+                        area: '324 կմ²',
+                        founded: 'Ք․ա․ 1500'
+                    },
+                    {
+                        id: 'mashhad',
+                        name: 'Մաշհադ',
+                        description: 'Կրոնական ուխտագնացության կենտրոն։ Երկրի երկրորդ ամենամեծ քաղաքը։',
+                        population: '3.2 միլիոն',
+                        area: '328 կմ²',
+                        founded: '818'
+                    }
+                ],
+                
+                facts: {
+                    history: [
+                        { icon: '🏛️', title: 'Հին Ցեղակալություն', text: 'Իրանը (Պարսկաստան) եղել է աշխարհի ամենահին քաղաքակրթություններից մեկը։ Պարսկական կայսրությունը գոյություն է ունեցել մոտ 2500 տարի։' },
+                        { icon: '👑', title: 'Մեծն Կյուրոս', text: 'Մեծն Կյուրոսի կողմից հիմնադրված Աքեմենյան տերությունը եղել է աշխարհի ամենամեծ կայսրությունը իր ժամանակ։' },
+                        { icon: '📜', title: 'Մարդու Իրավունքների Սիլինդր', text: 'Մեծն Կյուրոսի սիլինդրը համարվում է մարդու իրավունքների հնագույն հռչակագիրը, որը թվագրվում է մ.թ.ա. 539 թվականին։' },
+                        { icon: '⚔️', title: 'Արքայական Փոխանցում', text: 'Իրանը պահպանել է իր անկախությունը ավելի քան 2500 տարի, չնայած բազմաթիվ արտաքին ներխուժումներին։' }
+                    ],
+                    culture: [
+                        { icon: '📖', title: 'Պոեզիայի Երկիր', text: 'Պարսկական գրականությունը աշխարհի ամենահարուստներից է։ Ֆիրդուսի, Հաֆեզ, Ռումի և Սադի այնպիսի պոետներ են, որոնց ստեղծագործությունները թարգմանվել են աշխարհի բազմաթիվ լեզուներով։' },
+                        { icon: '🎭', title: 'Թատերական Ավանդույթ', text: 'Թազիեհը (Սրբերի խաղ) մուսուլմանական թատրոնի յուրօրինակ ձև է, որը ներառում է միջնադարյան կրոնական դրամաներ։' },
+                        { icon: '🎵', title: 'Երաժշտական Ժառանգություն', text: 'Իրանական երաժշտությունը ունի ավելի քան 3000 տարվա պատմություն։ Տարը և սանթուրը ավանդական պարսկական նվագարաններ են։' },
+                        { icon: '🎨', title: 'Պարսկական Գորգեր', text: 'Իրանական գորգերը հայտնի են իրենց բարդ նախշերով և բարձր որակով։ Դրանք պատրաստվում են ձեռքով և կարող են տևել մի քանի տարի։' }
+                    ],
+                    geography: [
+                        { icon: '🗻', title: 'Լեռնային Երկիր', text: 'Իրանի տարածքի ավելի քան կեսը ծածկված է լեռներով։ Դամավանդ լեռը գտնվում է Թեհրանից հյուսիս և հայտնի է իր ձյունապատ լանդշաֆտներով։' },
+                        { icon: '🏜️', title: 'Անապատներ', text: 'Իրանն ունի երկու հիմնական անապատներ՝ Դաշտե-Կավիր և Դաշտե-Լութ, որոնք ամենատաք վայրերից են Երկիր մոլորակի վրա։' },
+                        { icon: '🌋', title: 'Գործող Հրաբուխ', text: 'Սահանդ լեռը Իրանի միակ գործող հրաբուխն է, որը գտնվում է երկրի հյուսիս-արևմուտքում։' },
+                        { icon: '🏞️', title: 'Երկար Ափագիծ', text: 'Իրանն ունի 2440 կմ ափագիծ Կասպից ծովի և Պարսից ծոցի երկայնքով։' }
+                    ],
+                    nature: [
+                        { icon: '🐅', title: 'Պարսկական Կենդանիներ', text: 'Իրանում բնակվում են բազմաթիվ հազվագյուտ կենդանիներ, ներառյալ ասիական առյուծը, պարսկական ընձառյուծը և կասպյան վագր։' },
+                        { icon: '🌺', title: 'Տուլիպների Հայրենիք', text: 'Հավանաբար Տուլիպը սկզբնապես բուծվել է Իրանում և այնտեղից է տարածվել Օսմանյան կայսրություն և ապա Եվրոպա։' },
+                        { icon: '🌳', title: 'Կենտրոնական անտառներ', text: 'Իրանի հյուսիսում գտնվում են խիտ անտառներ, որոնք հիմնականում կաղնու և հաճարենու ծառերից են բաղկացած։' },
+                        { icon: '🦅', title: 'Թռչունների Բազմազանություն', text: 'Իրանում գրանցված է ավելի քան 500 տեսակի թռչուն, ինչը այն դարձնում է թռչնաբանների համար կարևոր տարածք։' }
+                    ],
+                    economy: [
+                        { icon: '🛢️', title: 'Նավթի Պաշարներ', text: 'Իրանն ունի աշխարհի չորրորդ ամենամեծ ապացուցված նավթի պաշարները և երկրորդ ամենամեծ բնական գազի պաշարները։' },
+                        { icon: '💎', title: 'Գոհարների Երկիր', text: 'Իրանը հայտնի է իր թանկարժեք քարերով։ Այստեղ արտադրվում են աշխարհի լավագույն ֆիրուզեն, օբսիդիանը և ագաթը։' },
+                        { icon: '🥜', title: 'Գյուղատնտեսական Ապրանքներ', text: 'Իրանը համաշխարհային խոշորագույն արտադրողն է փիստակի, քերեզի և զաֆրանի։' },
+                        { icon: '🏭', title: 'Արդյունաբերական Աճ', text: 'Չնայած պատժամիջոցներին, Իրանը շարունակում է զարգանալ ավտոմոբիլաշինության, էլեկտրոնիկայի և դեղագործության ոլորտներում։' }
+                    ]
+                },
+                
+                isDarkTheme: true,
+                
+                init: function() {
+                    this.createFloatingDots();
+                    this.animateLoader();
+                    this.setupEventListeners();
+                    this.renderCities();
+                    this.populateCitySelects();
+                    this.renderFacts('history');
+                    this.initCounters();
+                    
+                    // Проверяем, если мы на мобильном устройстве
+                    this.checkMobile();
+                },
+                
+                createFloatingDots: function() {
+                    const container = document.createElement('div');
+                    container.className = 'floating-dots';
+                    
+                    for (let i = 0; i < 20; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'floating-dot';
+                        dot.style.cssText = `
+                            left: ${Math.random() * 100}%;
+                            top: ${Math.random() * 100}%;
+                            animation-duration: ${Math.random() * 10 + 15}s;
+                            animation-delay: ${Math.random() * 5}s;
+                        `;
+                        container.appendChild(dot);
+                    }
+                    
+                    document.body.appendChild(container);
+                },
+                
+                animateLoader: function() {
+                    let progress = 0;
+                    const progressFill = document.getElementById('progressFill');
+                    const interval = setInterval(() => {
+                        progress += Math.random() * 10 + 5;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(interval);
+                            setTimeout(() => {
+                                document.getElementById('loader').style.opacity = '0';
+                                setTimeout(() => {
+                                    document.getElementById('loader').style.display = 'none';
+                                }, 500);
+                            }, 300);
+                        }
+                        progressFill.style.width = progress + '%';
+                    }, 80);
+                },
+                
+                checkMobile: function() {
+                    // Добавляем класс для мобильных устройств
+                    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                        document.body.classList.add('is-mobile');
+                    }
+                },
+                
+                setupEventListeners: function() {
+                    // Mobile menu
+                    document.getElementById('mobileMenuBtn').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        document.getElementById('mobileNav').classList.add('active');
+                        document.getElementById('mobileNavOverlay').classList.add('active');
+                        document.body.style.overflow = 'hidden'; // Блокируем скролл тела при открытом меню
+                    });
+                    
+                    document.getElementById('closeMenu').addEventListener('click', this.closeMobileMenu.bind(this));
+                    document.getElementById('mobileNavOverlay').addEventListener('click', this.closeMobileMenu.bind(this));
+                    
+                    // Mobile navigation links
+                    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const section = link.dataset.section;
+                            this.switchSection(section, link);
+                            this.closeMobileMenu();
+                        });
+                    });
+                    
+                    // Desktop navigation
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const section = link.dataset.section;
+                            this.switchSection(section, link);
+                        });
+                    });
+                    
+                    // Password toggle
+                    document.getElementById('togglePassword').addEventListener('click', function() {
+                        const password = document.getElementById('password');
+                        const type = password.type === 'password' ? 'text' : 'password';
+                        password.type = type;
+                        this.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
+                    });
+                    
+                    // Login
+                    document.getElementById('loginBtn').addEventListener('click', () => this.login());
+                    document.getElementById('password').addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') this.login();
+                    });
+                    
+                    // Theme toggle
+                    document.getElementById('themeToggle').addEventListener('click', () => this.toggleTheme());
+                    
+                    // Calculator
+                    document.getElementById('calculateBtn').addEventListener('click', () => this.calculateDistance());
+                    document.getElementById('resetCalc').addEventListener('click', () => this.resetCalculator());
+                    document.getElementById('swapCities').addEventListener('click', () => this.swapCities());
+                    
+                    // Facts categories
+                    document.querySelectorAll('.category-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const category = e.target.dataset.category;
+                            this.renderFacts(category);
+                            
+                            // Update active category
+                            document.querySelectorAll('.category-btn').forEach(b => {
+                                b.classList.remove('active');
+                            });
+                            e.target.classList.add('active');
+                        });
+                    });
+                    
+                    // Prevent form submission on Enter
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+                            e.preventDefault();
+                        }
+                    });
+                    
+                    // Исправление для iOS - предотвращение зума при фокусе
+                    document.addEventListener('touchstart', function(e) {
+                        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+                            // Ничего не делаем - позволим стандартное поведение
+                        }
+                    }, { passive: true });
+                    
+                    // Восстановление скролла после закрытия меню
+                    document.addEventListener('touchmove', function(e) {
+                        // Разрешаем скролл всегда
+                    }, { passive: true });
+                },
+                
+                closeMobileMenu: function() {
+                    document.getElementById('mobileNav').classList.remove('active');
+                    document.getElementById('mobileNavOverlay').classList.remove('active');
+                    document.body.style.overflow = ''; // Восстанавливаем скролл тела
+                },
+                
+                login: function() {
+                    const password = document.getElementById('password').value;
+                    if (password === 'Iranxhistory') {
+                        document.getElementById('login').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('login').style.display = 'none';
+                            document.getElementById('app').style.display = 'block';
+                            this.showNotification('✅ Մուտքը հաջողվեց');
+                            this.animateCounters();
+                        }, 500);
+                    } else {
+                        const input = document.getElementById('password');
+                        input.style.borderColor = '#ff4444';
+                        setTimeout(() => {
+                            input.style.borderColor = '';
+                        }, 1000);
+                        this.showNotification('❌ Սխալ գաղտնաբառ');
+                    }
+                },
+                
+                switchSection: function(section, clickedLink) {
+                    // Update navigation
+                    document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    if (clickedLink) {
+                        clickedLink.classList.add('active');
+                    }
+                    
+                    // Hide all sections
+                    document.querySelectorAll('.content-section').forEach(sec => {
+                        sec.classList.remove('active');
+                    });
+                    
+                    // Show selected section
+                    const targetSection = document.getElementById(section + 'Section');
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                        // Scroll to top
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                },
+                
+                renderCities: function() {
+                    const citiesGrid = document.getElementById('citiesGrid');
+                    citiesGrid.innerHTML = this.cities.map(city => `
+                        <div class="city-card" onclick="app.showCityModal('${city.id}')">
+                            <h3 class="city-name">${city.name}</h3>
+                            <p class="city-description">${city.description}</p>
+                            <div class="city-stats">
+                                <div class="city-stat">👥 ${city.population}</div>
+                                <div class="city-stat">📏 ${city.area}</div>
+                                <div class="city-stat">📅 ${city.founded}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                },
+                
+                showCityModal: function(cityId) {
+                    const city = this.cities.find(c => c.id === cityId);
+                    if (!city) return;
+                    
+                    const modal = document.createElement('div');
+                    modal.style.cssText = `
+                        position: fixed;
+                        top: 0; left: 0;
+                        width: 100%; height: 100%;
+                        background: rgba(0,0,0,0.8);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 1000;
+                        padding: 20px;
+                        overflow-y: auto;
+                        -webkit-overflow-scrolling: touch;
+                    `;
+                    
+                    modal.innerHTML = `
+                        <div style="
+                            background: ${this.isDarkTheme ? '#111827' : 'white'};
+                            padding: 30px;
+                            border-radius: 20px;
+                            max-width: 500px;
+                            width: 100%;
+                            border: 2px solid ${this.isDarkTheme ? '#f0c46a' : '#d97706'};
+                            color: ${this.isDarkTheme ? 'white' : '#1e293b'};
+                            position: relative;
+                            margin: auto;
+                        ">
+                            <button onclick="this.parentElement.parentElement.remove()" style="
+                                position: absolute;
+                                top: 20px;
+                                right: 20px;
+                                background: none;
+                                border: none;
+                                color: ${this.isDarkTheme ? '#f0c46a' : '#d97706'};
+                                font-size: 28px;
+                                cursor: pointer;
+                                padding: 10px;
+                                width: 44px;
+                                height: 44px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                z-index: 1;
+                            ">✕</button>
+                            
+                            <h3 style="color: ${this.isDarkTheme ? '#f0c46a' : '#d97706'}; 
+                                font-size: 26px; margin-bottom: 20px; padding-right: 50px;">${city.name}</h3>
+                            
+                            <p style="margin-bottom: 25px; line-height: 1.7; color: ${this.isDarkTheme ? '#a6b0c3' : '#64748b'}; font-size: 16px;">
+                                ${city.description}
+                            </p>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px;">
+                                <div style="text-align: center; background: ${this.isDarkTheme ? 'rgba(240, 196, 106, 0.12)' : 'rgba(217, 119, 6, 0.12)'}; 
+                                    padding: 18px; border-radius: 12px;">
+                                    <div style="color: ${this.isDarkTheme ? '#f0c46a' : '#d97706'}; font-size: 13px; margin-bottom: 8px;">Բնակչություն</div>
+                                    <div style="font-weight: bold; font-size: 20px; color: ${this.isDarkTheme ? 'white' : '#1e293b'};">${city.population}</div>
+                                </div>
+                                <div style="text-align: center; background: ${this.isDarkTheme ? 'rgba(240, 196, 106, 0.12)' : 'rgba(217, 119, 6, 0.12)'}; 
+                                    padding: 18px; border-radius: 12px;">
+                                    <div style="color: ${this.isDarkTheme ? '#f0c46a' : '#d97706'}; font-size: 13px; margin-bottom: 8px;">Տարածք</div>
+                                    <div style="font-weight: bold; font-size: 20px; color: ${this.isDarkTheme ? 'white' : '#1e293b'};">${city.area}</div>
+                                </div>
+                                <div style="text-align: center; background: ${this.isDarkTheme ? 'rgba(240, 196, 106, 0.12)' : 'rgba(217, 119, 6, 0.12)'}; 
+                                    padding: 18px; border-radius: 12px;">
+                                    <div style="color: ${this.isDarkTheme ? '#f0c46a' : '#d97706'}; font-size: 13px; margin-bottom: 8px;">Հիմնադրված</div>
+                                    <div style="font-weight: bold; font-size: 20px; color: ${this.isDarkTheme ? 'white' : '#1e293b'};">${city.founded}</div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="this.parentElement.parentElement.remove()" style="
+                                width: 100%;
+                                padding: 16px;
+                                background: ${this.isDarkTheme ? '#f0c46a' : '#d97706'};
+                                border: none;
+                                border-radius: 12px;
+                                color: ${this.isDarkTheme ? '#111' : 'white'};
+                                font-weight: bold;
+                                font-size: 17px;
+                                cursor: pointer;
+                                min-height: 54px;
+                            ">
+                                Փակել
+                            </button>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(modal);
+                    
+                    // Close on overlay click
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            this.remove();
+                        }
+                    });
+                },
+                
+                renderFacts: function(category) {
+                    const facts = this.facts[category] || [];
+                    const factsGrid = document.getElementById('factsGrid');
+                    
+                    if (facts.length === 0) {
+                        factsGrid.innerHTML = '<p style="text-align: center; color: #a6b0c3; grid-column: 1/-1; padding: 40px; font-size: 16px;">Փաստերը չեն գտնվել</p>';
+                        return;
+                    }
+                    
+                    factsGrid.innerHTML = facts.map(fact => `
+                        <div class="fact-card">
+                            <div class="fact-icon">${fact.icon}</div>
+                            <h3 class="fact-title">${fact.title}</h3>
+                            <p class="fact-text">${fact.text}</p>
+                        </div>
+                    `).join('');
+                },
+                
+                populateCitySelects: function() {
+                    const fromSelect = document.getElementById('cityFrom');
+                    const toSelect = document.getElementById('cityTo');
+                    
+                    // Clear existing options except first
+                    while (fromSelect.options.length > 1) fromSelect.remove(1);
+                    while (toSelect.options.length > 1) toSelect.remove(1);
+                    
+                    // Add city options
+                    this.cities.forEach((city, index) => {
+                        const option1 = new Option(city.name, index);
+                        const option2 = new Option(city.name, index);
+                        fromSelect.add(option1);
+                        toSelect.add(option2);
+                    });
+                    
+                    // Set default values
+                    fromSelect.value = '0';
+                    toSelect.value = '1';
+                },
+                
+                calculateDistance: function() {
+                    const fromIndex = parseInt(document.getElementById('cityFrom').value);
+                    const toIndex = parseInt(document.getElementById('cityTo').value);
+                    
+                    if (isNaN(fromIndex) || isNaN(toIndex) || fromIndex === toIndex) {
+                        this.showNotification('⚠️ Խնդրում ենք ընտրել տարբեր քաղաքներ');
+                        return;
+                    }
+                    
+                    const city1 = this.cities[fromIndex];
+                    const city2 = this.cities[toIndex];
+                    const distance = 100 + Math.abs(fromIndex - toIndex) * 150;
+                    const miles = (distance * 0.621371).toFixed(1);
+                    const travelTime = (distance / 80).toFixed(1);
+                    const flightTime = (distance / 800).toFixed(1);
+                    
+                    document.getElementById('resultContainer').innerHTML = `
+                        <div style="width: 100%;">
+                            <div class="distance-value">${distance.toFixed(1)} կմ</div>
+                            <div class="distance-label">${city1.name} → ${city2.name}</div>
+                            <div class="distance-details">
+                                <div class="detail-item">
+                                    <div class="detail-value">${miles}</div>
+                                    <div class="detail-label">Մղոն</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">${travelTime} ժ</div>
+                                    <div class="detail-label">Ավտոմեքենա</div>
+                                </div>
+                                <div class="detail-item">
+                                    <div class="detail-value">${flightTime} ժ</div>
+                                    <div class="detail-label">Ինքնաթիռ</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    this.showNotification(`📏 ${city1.name} → ${city2.name}: ${distance.toFixed(1)} կմ`);
+                },
+                
+                resetCalculator: function() {
+                    document.getElementById('cityFrom').value = '0';
+                    document.getElementById('cityTo').value = '1';
+                    document.getElementById('resultContainer').innerHTML = `
+                        <div class="result-placeholder">
+                            Հեռավորությունը կցուցադրվի այստեղ
+                        </div>
+                    `;
+                    this.showNotification('🧹 Մաքրված է');
+                },
+                
+                swapCities: function() {
+                    const fromSelect = document.getElementById('cityFrom');
+                    const toSelect = document.getElementById('cityTo');
+                    const temp = fromSelect.value;
+                    fromSelect.value = toSelect.value;
+                    toSelect.value = temp;
+                    this.showNotification('🔄 Փոխանակված է');
+                },
+                
+                initCounters: function() {
+                    this.totalStats = {
+                        cities: this.cities.length,
+                        area: 2172,
+                        population: 18.3
+                    };
+                },
+                
+                animateCounters: function() {
+                    const animate = (elementId, target, suffix = '') => {
+                        const element = document.getElementById(elementId);
+                        if (!element) return;
+                        
+                        let current = 0;
+                        const increment = target / 40;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            element.textContent = Math.round(current) + suffix;
+                        }, 30);
+                    };
+                    
+                    animate('cityCount', this.totalStats.cities);
+                    animate('areaCount', this.totalStats.area, ' հազ');
+                    animate('populationCount', this.totalStats.population, ' մլն');
+                },
+                
+                toggleTheme: function() {
+                    this.isDarkTheme = !this.isDarkTheme;
+                    document.body.classList.toggle('light-theme', !this.isDarkTheme);
+                    document.getElementById('themeToggle').textContent = this.isDarkTheme ? '🌙' : '☀️';
+                    this.showNotification(this.isDarkTheme ? '🌙 Մուգ ռեժիմ' : '☀️ Լուսավոր ռեժիմ');
+                },
+                
+                showNotification: function(message) {
+                    const notification = document.getElementById('notification');
+                    notification.textContent = message;
+                    notification.classList.add('show');
+                    
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 3000);
+                }
+            };
+            
+            // Initialize app
+            app.init();
+            window.app = app;
+            
+            // Добавляем обработчики для улучшения работы на мобильных
+            document.addEventListener('touchstart', function() {}, {passive: true});
+            document.addEventListener('touchmove', function() {}, {passive: true});
+            
+            // Исправление для iOS Safari
+            if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+                document.body.style.webkitOverflowScrolling = 'touch';
+            }
+        });
+    </script>
+</body>
+</html>
